@@ -4,7 +4,7 @@ export default function About(){
 
     return (
         <View>
-            <Text>About</Text>
+            <Text>BKWAL;DKLWAKLDKWAL;KDLAKDAWLK LASKDASDKALS;</Text>
         </View>
     )
 }
