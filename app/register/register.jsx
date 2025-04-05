@@ -11,13 +11,21 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
+import { useForm, Controller } from "react-hook-form";
 
 export default function Register() {
   const router = useRouter();
+  const { handleSubmit, control, formState: { errors }, watch } = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
   const [image, setImage] = useState(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const password = watch("password"); // Watch the password field for confirmation validation
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -31,19 +39,19 @@ export default function Register() {
     }
   };
 
-  const handleRegister = () => {
-    if (!name || !email || !password) {
+  const onSubmit = (data) => {
+    console.log("Registration Data:", data, "Image URI:", image); // For testing purposes
+    if (!image) {
       Toast.show({
         type: "error",
         text1: "Error",
-        text2: "Please fill in all fields.",
+        text2: "Please select an image.",
         position: "top",
         visibilityTime: 3000,
         autoHide: true,
       });
       return;
     }
-
     Toast.show({
       type: "success",
       text1: "Success",
@@ -52,14 +60,12 @@ export default function Register() {
       visibilityTime: 3000,
       autoHide: true,
     });
-    resetForm();
+    // In a real app, you would send this data to your backend
+    // and likely navigate to the login screen: router.push('/login');
   };
 
-  const resetForm = () => {
-    setName("");
-    setEmail("");
-    setPassword("");
-    setImage(null);
+  const goToLogin = () => {
+    router.push('/login');
   };
 
   return (
@@ -84,36 +90,98 @@ export default function Register() {
               <Text style={styles.imageText}>Select Image</Text>
             )}
           </TouchableOpacity>
+          {errors.image && <Text style={styles.errorText}>{errors.image.message}</Text>}
 
           {/* Input Fields */}
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            value={name}
-            onChangeText={setName}
-            placeholderTextColor="#D6336C"
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: 'Name is required' }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Name"
+                value={value}
+                onChangeText={onChange}
+                placeholderTextColor="#D6336C"
+              />
+            )}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            placeholderTextColor="#D6336C"
+          {errors.name && <Text style={styles.errorText}>{errors.name.message}</Text>}
+
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: 'Invalid email format',
+              },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                keyboardType="email-address"
+                value={value}
+                onChangeText={onChange}
+                autoCapitalize="none"
+                placeholderTextColor="#D6336C"
+              />
+            )}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-            placeholderTextColor="#D6336C"
+          {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: 'Password is required',
+              minLength: { value: 6, message: 'Password must be at least 6 characters' },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                value={value}
+                onChangeText={onChange}
+                placeholderTextColor="#D6336C"
+              />
+            )}
           />
+          {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+
+          <Controller
+            name="confirmPassword"
+            control={control}
+            rules={{
+              required: 'Confirm Password is required',
+              validate: value =>
+                value === password || "Passwords do not match",
+            }}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                secureTextEntry
+                value={value}
+                onChangeText={onChange}
+                placeholderTextColor="#D6336C"
+              />
+            )}
+          />
+          {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>}
 
           {/* Register Button */}
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
             <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+
+          {/* Go to Login */}
+          <TouchableOpacity onPress={goToLogin} style={styles.goToLoginButton}>
+            <Text style={styles.goToLoginText}>Already have an account? | <Text style={{ fontWeight: 'bold' }}>Login  </Text></Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -135,7 +203,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    maxWidth: 500, 
+    maxWidth: 500,
     padding: 25,
     backgroundColor: "#FFEFF3",
     borderRadius: 20,
@@ -163,14 +231,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   imagePicker: {
-    width: 100, 
+    width: 100,
     height: 100,
     backgroundColor: "#FCE4EC",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 15,
-    marginBottom: 20,
-    borderWidth: 1.5, 
+    marginBottom: 10, 
+    borderWidth: 1.5,
     borderColor: "#D6336C",
   },
   image: {
@@ -187,8 +255,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFEFF3",
     borderRadius: 12,
     paddingHorizontal: 15,
-    marginBottom: 15,
-    borderWidth: 1.5, 
+    marginBottom: 5, 
+    borderWidth: 1.5,
     borderColor: "#D6336C",
     color: "#333",
     fontSize: 16,
@@ -199,7 +267,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     width: "100%",
-    marginTop: 10,
+    marginTop: 10, 
     shadowColor: "#D6336C",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -210,5 +278,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 5, 
+  },
+  goToLoginButton: {
+    marginTop: 15,
+  },
+  goToLoginText: {
+    color: "#D6336C",
+    fontSize: 16,
   },
 });

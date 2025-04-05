@@ -20,7 +20,7 @@ export default function Exercise() {
     {
       title: "Exercise 3",
       description:
-        "Create login screen<br/>Login screen fields:\n\n<ul><li>Email</li><li>Password</li></ul>",
+        "Create login screen \nLogin screen fields:\n<ul><li>Email</li><li>Password</li></ul>",
       route: "login",
       buttonText: "Login Now",
     },
