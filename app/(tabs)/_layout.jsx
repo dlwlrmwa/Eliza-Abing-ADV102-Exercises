@@ -20,11 +20,11 @@ export default function Layout() {
             <IconComponent
               name={iconName}
               size={size || 24}
-              color={focused ? "rgb(24, 175, 213)" : "black"}
+              color={focused ? "rgba(206, 36, 240, 0.6)" : "black"}
             />
           );
         },
-        tabBarActiveTintColor: "rgb(24, 175, 213)",
+        tabBarActiveTintColor: "rgba(206, 36, 240, 0.6)",
         tabBarInactiveTintColor: "rgb(22, 23, 23)",
       })}
     >

@@ -4,7 +4,7 @@ export default function Contact(){
 
     return (
         <View>
-            <Text>Contact</Text>
+            <Text>WHAKJDHWAKJHDJKAHWKJ</Text>
         </View>
     )
 }
