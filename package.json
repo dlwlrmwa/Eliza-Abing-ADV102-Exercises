@@ -11,6 +11,7 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
+    "build": "expo build:web",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -22,6 +23,8 @@
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.15",
     "@react-navigation/stack": "^7.1.2",
+    "build": "^0.1.4",
+    "deploy": "^1.0.3",
     "expo": "~52.0.37",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.7",
@@ -61,7 +64,7 @@
     "typescript": "^5.3.3"
   },
   "private": true,
-  "description": "Abing-ADV102-Exercises",
+  "description": "eliza-abing-adv102-exercises",
   "author": "eli",
   "license": "ISC",
   "repository": {
