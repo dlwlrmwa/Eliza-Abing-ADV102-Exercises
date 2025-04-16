@@ -14,6 +14,7 @@ export default function Home() {
                 {/* Main Content */}
                 <View style={styles.content}>
                     <Text style={styles.nameText}>Eliza Marie M. Abing</Text>
+                    <Text style={styles.nameText}>BSIT - 2B</Text>
                 </View>
             </View>
         </View>
@@ -40,13 +41,13 @@ const styles = StyleSheet.create({
         gap: 20, // Space between buttons
     },
     aboutButton: {
-        backgroundColor: '#8E44AD', // Deep pink
+        backgroundColor: '#D6336C', 
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 15,
     },
     contactButton: {
-        backgroundColor: '#8E44AD', // Purple
+        backgroundColor: '#D6336C', 
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 15,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     nameText: {
         fontSize: 60,
         fontWeight: "bold",
-        color: '#FCE4EC',
+        color: '#fff',
         textAlign: "center",
     },
 }); 

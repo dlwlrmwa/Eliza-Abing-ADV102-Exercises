@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 20,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#FFF0F5", // Updated to match Login page background
     },
     title: {
         fontSize: 30,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     button: {
-        backgroundColor: "#007BFF",
+        backgroundColor: "#D6336C", // Matches Login page button color
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
