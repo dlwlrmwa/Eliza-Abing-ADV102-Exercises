@@ -11,6 +11,8 @@ import {
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
+import { auth } from "@/firebaseConfig"; // Import Firebase auth
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,6 +22,7 @@ export default function Login() {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       email: '',
@@ -27,24 +30,35 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Login Data:", data);
-    if (data.email === "sofiagwapa@gmail.com" && data.password === "123456") {
+
+    try {
+      // Log in the user with Firebase
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      console.log("User logged in:", userCredential.user);
+
+      // Show success toast
       Toast.show({
         type: "success",
-        text1: "Success",
-        text2: "Login successful!",
+        text1: "Welcome!",
+        text2: `Hello, ${userCredential.user.email}!`,
         position: "top",
         visibilityTime: 3000,
         autoHide: true,
       });
-      // In a real app, you would navigate to the main app screen here.
-      // router.push("/home");
-    } else {
+
+      // Reset form fields
+      reset();
+
+      // Navigate to the home page
+      router.push("/about");
+    } catch (error) {
+      console.error("Error during login:", error);
       Toast.show({
         type: "error",
-        text1: "Error",
-        text2: "Invalid email or password.",
+        text1: "Login Failed",
+        text2: error.message,
         position: "top",
         visibilityTime: 3000,
         autoHide: true,

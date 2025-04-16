@@ -12,10 +12,12 @@ import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
 import { useForm, Controller } from "react-hook-form";
+import { auth } from "@/firebaseConfig"; // Import Firebase auth
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Register() {
   const router = useRouter();
-  const { handleSubmit, control, formState: { errors }, watch } = useForm({
+  const { handleSubmit, control, formState: { errors }, watch, reset } = useForm({
     defaultValues: {
       name: '',
       email: '',
@@ -39,8 +41,9 @@ export default function Register() {
     }
   };
 
-  const onSubmit = (data) => {
-    console.log("Registration Data:", data, "Image URI:", image); // For testing purposes
+  const onSubmit = async (data) => {
+    console.log("Registration Data:", data, "Image URI:", image);
+
     if (!image) {
       Toast.show({
         type: "error",
@@ -52,16 +55,41 @@ export default function Register() {
       });
       return;
     }
-    Toast.show({
-      type: "success",
-      text1: "Success",
-      text2: "You have successfully registered!",
-      position: "top",
-      visibilityTime: 3000,
-      autoHide: true,
-    });
-    // In a real app, you would send this data to your backend
-    // and likely navigate to the login screen: router.push('/login');
+
+    try {
+      // Create a new user in Firebase
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      console.log("User created:", userCredential.user);
+
+      // Show success toast
+      Toast.show({
+        type: "success",
+        text1: "Registration Successful",
+        text2: "You may now proceed to the login page.",
+        position: "top",
+        visibilityTime: 5000,
+        autoHide: true,
+      });
+
+      // Reset form fields and image
+      reset();
+      setImage(null);
+
+      // Optionally delay navigation to allow the user to see the toast
+      setTimeout(() => {
+        console.log("User can now navigate to the login page.");
+      }, 5000);
+    } catch (error) {
+      console.error("Error during registration:", error);
+      Toast.show({
+        type: "error",
+        text1: "Registration Failed",
+        text2: error.message,
+        position: "top",
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+    }
   };
 
   const goToLogin = () => {
