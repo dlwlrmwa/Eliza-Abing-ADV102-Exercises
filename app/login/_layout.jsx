@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { auth } from "@/firebaseConfig"; // Import Firebase auth
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 export default function Login() {
   const router = useRouter();
@@ -25,8 +25,8 @@ export default function Login() {
     reset,
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -35,7 +35,11 @@ export default function Login() {
 
     try {
       // Log in the user with Firebase
-      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
       console.log("User logged in:", userCredential.user);
 
       // Show success toast
@@ -76,10 +80,10 @@ export default function Login() {
     //   router.push("/forgot-password");
     console.log("Forgot Password pressed"); // Placeholder for now
     Toast.show({
-      type: 'info',
-      text1: 'Info',
-      text2: 'Forgot Password functionality not implemented yet.',
-      position: 'top',
+      type: "info",
+      text1: "Info",
+      text2: "Forgot Password functionality not implemented yet.",
+      position: "top",
       visibilityTime: 3000,
       autoHide: true,
     });
@@ -87,12 +91,17 @@ export default function Login() {
 
   return (
     <ImageBackground
-      source={{ uri: "https://images.unsplash.com/photo-1542372147193-a7aca54189dd" }}
+      source={{
+        uri: "https://images.unsplash.com/photo-1542372147193-a7aca54189dd",
+      }}
       style={styles.background}
     >
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()}
+          >
             <Text style={styles.backText}>←</Text>
           </TouchableOpacity>
 
@@ -102,10 +111,10 @@ export default function Login() {
             name="email"
             control={control}
             rules={{
-              required: 'Email is required',
+              required: "Email is required",
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: 'Invalid email format',
+                message: "Invalid email format",
               },
             }}
             render={({ field: { onChange, value } }) => (
@@ -120,14 +129,19 @@ export default function Login() {
               />
             )}
           />
-          {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+          {errors.email && (
+            <Text style={styles.errorText}>{errors.email.message}</Text>
+          )}
 
           <Controller
             name="password"
             control={control}
             rules={{
-              required: 'Password is required',
-              minLength: { value: 6, message: 'Password must be at least 6 characters' },
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
             }}
             render={({ field: { onChange, value } }) => (
               <TextInput
@@ -140,19 +154,28 @@ export default function Login() {
               />
             )}
           />
-          {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+          {errors.password && (
+            <Text style={styles.errorText}>{errors.password.message}</Text>
+          )}
 
-          <TouchableOpacity onPress={navigateToForgotPassword} style={styles.forgotPasswordButton}>
+          <TouchableOpacity
+            onPress={navigateToForgotPassword}
+            style={styles.forgotPasswordButton}
+          >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={handleSubmit(onSubmit)}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSubmit(onSubmit)}
+          >
             <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={navigateToRegister}>
             <Text style={styles.footerText}>
-              Not registered? | <Text style={{ fontWeight: 'bold' }}>Create an account</Text>
+              Not registered? |{" "}
+              <Text style={{ fontWeight: "bold" }}>Create an account</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -175,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    width: '90%',
+    width: "90%",
     maxWidth: 500,
     padding: 20,
     backgroundColor: "#FFF0F5",
@@ -240,16 +263,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginBottom: 10,
   },
   forgotPasswordButton: {
     marginTop: 10,
-    alignSelf: 'left',
+    alignSelf: "left",
   },
   forgotPasswordText: {
-    color: '#D6336C',
+    color: "#D6336C",
     fontSize: 14,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
 });
