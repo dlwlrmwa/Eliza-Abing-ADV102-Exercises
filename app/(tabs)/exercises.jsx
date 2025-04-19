@@ -37,7 +37,7 @@ export default function Exercise() {
     {
       title: "Exercise 5",
       description:
-        "<b>Create Register screen</b><br/>Register screen fields:\n\n<ul><li>Image: Allows user to select image</li><li>Name</li><li>Email</li><li>Password</li></ul>",
+        "<b>Create Register screen</b><br/>Register screen fields:\n<ul><li>Image: Allows user to select image</li><li>Name</li><li>Email</li><li>Password</li></ul>",
       route: "register",
       buttonText: "Register an Account",
       icon: "person-add", // Icon name
@@ -111,7 +111,6 @@ export default function Exercise() {
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Exercises</Text>
         {exercises.map((exercise, index) => (
           <TouchableOpacity
             key={index}
@@ -173,7 +172,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   header: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   gradient: {
-    padding: 25,
+    padding: 27,
     borderRadius: 12,
   },
   cardHeader: {
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
   },
   navigateButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '600'
   },
   buttonRow: {
@@ -233,17 +232,22 @@ const styles = StyleSheet.create({
 
 const htmlStyles = StyleSheet.create({
   p: {
-    fontSize: 16,
-    color: '#333',
-    lineHeight: 22,
+    fontSize: 18,
+    color: '#333', 
+    lineHeight: 24,
+  },
+  b: {
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    color: '#000', 
   },
   ul: {
-    marginTop: 5,
-    marginBottom: 5,
-    paddingLeft: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    paddingLeft: 20, 
   },
   li: {
-    fontSize: 14,
-    color: '#000',
+    fontSize: 14, 
+    color: '#000', 
   },
 });
