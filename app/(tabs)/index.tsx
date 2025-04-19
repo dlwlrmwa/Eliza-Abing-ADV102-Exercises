@@ -1,5 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Link } from "expo-router";
+
+const { width } = Dimensions.get("window");
 
 export default function Home() {
     return (
@@ -64,9 +66,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     nameText: {
-        fontSize: 60,
+        fontSize: width > 600 ? 50 : 30, 
         fontWeight: "bold",
         color: '#fff',
         textAlign: "center",
     },
-}); 
+});
