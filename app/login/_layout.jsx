@@ -51,18 +51,40 @@ export default function Login() {
       // Reset form fields
       reset();
 
-      // Navigate to the home page
+      // Navigate to the successful page
       router.push("/about");
     } catch (error) {
       console.error("Error during login:", error);
-      Toast.show({
-        type: "error",
-        text1: "Login Failed",
-        text2: error.message,
-        position: "top",
-        visibilityTime: 3000,
-        autoHide: true,
-      });
+
+      // Handle different error codes and show appropriate messages
+      if (error.code === "wrong-password") {
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: "Wrong password. Please try again.",
+          position: "top",
+          visibilityTime: 3000,
+          autoHide: true,
+        });
+      } else if (error.code === "user-not-found") {
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: "User not found. Please check your email.",
+          position: "top",
+          visibilityTime: 3000,
+          autoHide: true,
+        });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Login Failed",
+          text2: error.message,
+          position: "top",
+          visibilityTime: 3000,
+          autoHide: true,
+        });
+      }
     }
   };
 
